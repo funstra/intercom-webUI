@@ -21,8 +21,8 @@ button {
   padding: 2px;
 }
 button:hover {
-  background-color: var(--fg-c,var(--col-blk));
-  color: var(--bg-c,var(--col-wht));
+  background-color: var(--fg-c, var(--col-blk));
+  color: var(--bg-c, var(--col-wht));
 }
 
 input,
@@ -30,8 +30,16 @@ select,
 button {
   cursor: pointer !important;
   font-family: inherit;
-  border-width: 2px;
+  border-width: 1px;
+  border-style: solid;
   border-color: currentColor;
+}
+input[type="text"]{
+  cursor: text !important;
+}
+ul,
+ol {
+  list-style: none;
 }
 :root {
   --col-blk: #333;

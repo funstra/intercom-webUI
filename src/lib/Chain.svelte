@@ -8,6 +8,7 @@
 
   export let onDrop;
   export let addModule;
+  export let removeModule;
 
   function considerModules(e) {
     modules = e.detail.items;
@@ -33,6 +34,7 @@
     >
       {#each modules as module (module.id)}
         <div class="module">
+          <button class="remove-module" on:click={() => removeModule(module.id)}>remove</button>
           <div>id: <span>{module.id}</span></div>
           <div>type: <span>{module.type}</span></div>
           {#if module[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
@@ -50,7 +52,7 @@
 </div>
 
 <style>
-  .remove-chain {
+  [class*="remove"] {
     --fg-c: var(--col-danger);
     --bg-c: var(--col-wht);
   }
@@ -109,6 +111,9 @@
     border-style: dashed;
     opacity: 0.5;
     background-color: var(--col-primary);
+  }
+  .remove-module{
+    width: 100%;
   }
   .add-module:hover {
     opacity: 1;
