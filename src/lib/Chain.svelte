@@ -20,25 +20,27 @@
 <div class="chain">
   <button class="remove-chain" on:click={() => removeChain(id)}>remove</button>
   <p>chain id: <span>{id}</span></p>
-  <div
-    class="inner"
-    use:dndzone={{
-      items: modules,
-      dropTargetStyle: { "": "" },
-      dropTargetClasses: ["dropOver"],
-    }}
-    on:consider={considerModules}
-    on:finalize={finalizeModules}
-  >
-    {#each modules as module (module.id)}
-      <div class="module">
-        <div>id: <span>{module.id}</span></div>
-        <div>type: <span>{module.type}</span></div>
-        {#if module[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
-          <div class="drop-target-shadow" />
-        {/if}
-      </div>
-    {/each}
+  <div class="inner">
+    <div
+      class="drop-zone"
+      use:dndzone={{
+        items: modules,
+        dropTargetStyle: { "": "" },
+        dropTargetClasses: ["dropOver"],
+      }}
+      on:consider={considerModules}
+      on:finalize={finalizeModules}
+    >
+      {#each modules as module (module.id)}
+        <div class="module">
+          <div>id: <span>{module.id}</span></div>
+          <div>type: <span>{module.type}</span></div>
+          {#if module[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
+            <div class="drop-target-shadow" />
+          {/if}
+        </div>
+      {/each}
+    </div>
     <select class="add-module" on:change={e => addModule(e)} name="add-module">
       <option value="pth">pass through</option>
       <option value="bch">branch</option>
@@ -75,6 +77,14 @@
     gap: var(--app-gap-2);
 
     background-color: var(--col-gr);
+  }
+  .chain .drop-zone {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-gap-2);
+  }
+  :global(.chain .dropOver) {
+    min-height: 32px;
   }
   .module {
     position: relative;
