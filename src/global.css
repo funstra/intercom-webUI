@@ -1,0 +1,56 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html,
+body,
+main {
+  height: 100%;
+}
+
+body {
+  font-family: "Courier New", Courier, monospace;
+  color: var(--col-blk);
+}
+button {
+  background-color: var(--bg-c, transparent);
+  color: var(--fg-c, currentColor);
+  border-style: solid;
+
+  padding: 2px;
+}
+button:hover {
+  background-color: var(--fg-c,var(--col-blk));
+  color: var(--bg-c,var(--col-wht));
+}
+
+input,
+select,
+button {
+  cursor: pointer !important;
+  font-family: inherit;
+  border-width: 2px;
+  border-color: currentColor;
+}
+:root {
+  --col-blk: #333;
+  --col-gr: #eee;
+  --col-wht: #fefefe;
+
+  --col-primary: rgb(19, 237, 226);
+  --col-danger: rgb(236, 40, 6);
+}
+
+:root {
+  --app-padding: 4px;
+  --app-gap-1: 2px;
+  --app-gap-2: 4px;
+
+  --app-rx: 1px;
+}
+
+/* drop style */
+.dropOver {
+  outline: 1px var(--col-primary) solid;
+}
