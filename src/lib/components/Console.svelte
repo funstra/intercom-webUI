@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { intercom_message } from "$lib/store.js";
+  import { intercom_message } from "$lib/stores/message";
 
   let logElm: HTMLElement;
 
@@ -51,7 +51,6 @@
     flex-direction: column;
     gap: 0.5rem;
   }
-  .log li{
-
+  .log li {
   }
 </style>
