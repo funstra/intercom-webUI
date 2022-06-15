@@ -6,4 +6,20 @@ import { createHtmlPlugin } from "vite-plugin-html"
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [svelte(), viteSingleFile(), createHtmlPlugin({ minify: true })],
+  resolve: {
+    alias: [
+      {
+        find: "$lib",
+        replacement: "/src/lib"
+      },
+      {
+        find: "$components",
+        replacement: "/src/lib/components"
+      },
+      {
+        find: "$util",
+        replacement: "/src/util"
+      },
+    ]
+  }
 })

@@ -1,7 +1,5 @@
 <script lang="ts">
-  import { transition_in } from "svelte/internal";
-
-  import { intercom_message } from "../store.js";
+  import { intercom_message } from "$lib/store.js";
 
   let logElm: HTMLElement;
 

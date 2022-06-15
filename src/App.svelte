@@ -1,9 +1,6 @@
 <script lang="ts">
-  // import messenger from "./lib/com/messenger"
-  import Console from "./lib/Console.svelte";
-  import Network from "./lib/Network.svelte";
-
-  
+  import Console from "$components/Console.svelte";
+  import Network from "$components/Network.svelte";
 </script>
 
 <main>
