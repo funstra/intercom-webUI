@@ -1,26 +1,97 @@
 <script lang="ts">
-  import { dndzone, SHADOW_ITEM_MARKER_PROPERTY_NAME } from "svelte-dnd-action";
+  import module_spec from "./module-spec.json";
+  import { dndzone } from "svelte-dnd-action";
+  import { printConf } from "./com/printConf";
+  import Module from "./Module.svelte";
+  import { uui } from "./util";
+
+  const uui0 = uui();
 
   export let id;
-  export let modules: { id: number; type: string }[];
+  export let inputs: { cv: string; gt: string };
+  export let outputs: { cv: string; gt: string };
+  export let modules: { id: number; type: string; params: [] | boolean }[];
+
+  export let connected: boolean;
 
   export let removeChain;
 
-  export let onDrop;
-  export let addModule;
-  export let removeModule;
+  $: if (!connected) {
+    if (inputs.cv && inputs.gt) {
+      printConf({
+        chainIndex: id,
+        connectChain: true,
+        inputs,
+      });
+    }
+  }
+
+  function addModule(e) {
+    modules.push({
+      id: uui0(),
+      type: e.target.value,
+      params: module_spec.modules.find(module => module.type === e.target.value)
+        .parameters,
+    });
+    modules = modules;
+    printConf(
+      {
+        chainIndex: id,
+        inputs,
+        connectChain: !connected,
+      },
+      modules
+    );
+    if (!connected) connected = true;
+  }
+
+  function removeModule(id: number) {
+    modules = modules.filter(module => module.id !== id);
+    printConf(
+      {
+        chainIndex: id,
+        connectChain: false,
+      },
+      modules
+    );
+  }
+
+  function setValue(value, param) {
+    param.value = value;
+    console.log(param);
+
+    modules = modules;
+    console.log(modules);
+
+    printConf({ chainIndex: id, connectChain: false }, modules);
+  }
 
   function considerModules(e) {
     modules = e.detail.items;
   }
   function finalizeModules(e) {
-    onDrop(e.detail.items);
+    modules = e.detail.items;
+    printConf({ chainIndex: id, inputs, connectChain: false }, modules);
   }
 </script>
 
 <div class="chain">
   <button class="remove-chain" on:click={() => removeChain(id)}>remove</button>
   <p>chain id: <span>{id}</span></p>
+  <!-- {#if inputs} -->
+  <div class="input">
+    input
+    <div>
+      cv:
+      <span><input type="text" name="input-cv" bind:value={inputs.cv} /></span>
+      <br />
+      gt:
+      <span><input type="text" name="input-gt" bind:value={inputs.gt} /></span>
+      <!-- cv: <span>{inputs.cv}</span>
+        gt: <span>{inputs.gt}</span> -->
+    </div>
+  </div>
+  <!-- {/if} -->
   <div class="inner">
     <div
       class="drop-zone"
@@ -33,17 +104,12 @@
       on:finalize={finalizeModules}
     >
       {#each modules as module (module.id)}
-        <div class="module">
-          <button class="remove-module" on:click={() => removeModule(module.id)}>remove</button>
-          <div>id: <span>{module.id}</span></div>
-          <div>type: <span>{module.type}</span></div>
-          {#if module[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
-            <div class="drop-target-shadow" />
-          {/if}
-        </div>
+        <Module {...module} {removeModule} {setValue} />
       {/each}
     </div>
-    <select class="add-module" on:change={e => addModule(e)} name="add-module">
+
+    <select class="add-module" on:change={addModule} name="add-module">
+      <option value="type">type</option>
       <option value="pth">pass through</option>
       <option value="bch">branch</option>
       <option value="lfo">lfo</option>
@@ -52,10 +118,6 @@
 </div>
 
 <style>
-  [class*="remove"] {
-    --fg-c: var(--col-danger);
-    --bg-c: var(--col-wht);
-  }
   .chain {
     height: 100%;
     padding: var(--app-padding);
@@ -88,33 +150,16 @@
   :global(.chain .dropOver) {
     min-height: 32px;
   }
-  .module {
-    position: relative;
 
-    padding: var(--app-padding);
-
-    border-radius: var(--app-rx);
-    border-color: var(--col-blk);
-    border-style: dashed;
-    border-width: 2px;
-  }
-  .module .drop-target-shadow {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--col-wht);
-    visibility: visible;
+  .input {
+    border: 1px green solid;
   }
   .add-module {
     border-style: dashed;
     opacity: 0.5;
     background-color: var(--col-primary);
   }
-  .remove-module{
-    width: 100%;
-  }
+
   .add-module:hover {
     opacity: 1;
   }

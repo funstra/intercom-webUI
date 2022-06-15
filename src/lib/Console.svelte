@@ -49,5 +49,11 @@
   .log {
     flex-grow: 1;
     overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .log li{
+
   }
 </style>

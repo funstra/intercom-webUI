@@ -62,3 +62,8 @@ ol {
 .dropOver {
   outline: 1px var(--col-primary) solid;
 }
+
+[class*="remove"] {
+  --fg-c: var(--col-danger);
+  --bg-c: var(--col-wht);
+}

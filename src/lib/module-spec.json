@@ -1,0 +1,21 @@
+{
+    "v": 0.1,
+    "modules": [
+        {
+            "name": "Branch",
+            "type": "bch",
+            "parameters": [
+                {
+                    "name": "modulePointer",
+                    "type": "pointer",
+                    "value": "0:0"
+                }
+            ]
+        },
+        {
+            "name": "Passthrough",
+            "type": "pth",
+            "parameters": false
+        }
+    ]
+}

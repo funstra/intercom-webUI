@@ -1,6 +1,9 @@
 <script lang="ts">
+  // import messenger from "./lib/com/messenger"
   import Console from "./lib/Console.svelte";
   import Network from "./lib/Network.svelte";
+
+  
 </script>
 
 <main>
@@ -20,7 +23,7 @@
   }
   @media (min-width: 512px) {
     main {
-      grid-template-columns: minmax(256px, 1fr) 512px;
+      grid-template-columns: minmax(256px, 1fr) 35ch;
     }
   }
 </style>
