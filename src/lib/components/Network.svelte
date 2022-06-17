@@ -5,6 +5,10 @@
 
   import Chain from "./Chain.svelte";
 
+  import { uui } from "$util/util";
+
+  const uui0 = uui();
+
   const ws: WebSocket = getContext("socket");
 
   let message_type: string | null = null;
@@ -56,7 +60,7 @@
         network.chains[parseInt(id)].modules = [];
       } else {
         network.chains[parseInt(id)].modules = modules.map((type, i) => ({
-          id: i,
+          id: uui0(),
           type,
         }));
       }
@@ -113,7 +117,7 @@
             isConnected: true,
             modules:
               modules[0] != "_"
-                ? modules.map((type, i) => ({ type, id: i }))
+                ? modules.map((type, i) => ({ type, id: uui0() }))
                 : [],
           },
         ];

@@ -2,6 +2,7 @@
   import { getContext, SvelteComponent } from "svelte";
   import Module from "./Module.svelte";
   import { dndzone } from "svelte-dnd-action";
+  import { uui } from "$util/util";
 
   export let chain: COMchain;
   export let removeChain;
@@ -13,7 +14,7 @@
       _modules.length ? "," : ""
     }${moduleType}`;
     console.log(cmd);
-    
+
     ws.send(cmd);
   }
   function removeModule(id) {
@@ -32,26 +33,28 @@
 
   function considerModules(e) {
     chain.modules = e.detail.items;
+    console.log(e.detail.items);
   }
   function finlazieModules(e) {
     chain.modules = e.detail.items;
     const _modules = chain.modules.map(module => module.type).join(",");
     const cmd = `c -e ${chain.id}:cv8:0,gt8:0>${_modules}`;
     console.log(cmd);
-    
-    // ws.send(cmd);
+
+    ws.send(cmd);
     // chain.modules = e.detail.items;
   }
 </script>
 
 <div class="chain">
-  <button on:click={() => removeChain(chain.id)} class="remove-chain"
-    >remove</button
-  >
-  <div class="meta">
-    id: <span>{chain.id}</span>
-    is connected: <span>{chain.isConnected}</span>
-  </div>
+  <header>
+    <p>chain:{chain.id}</p>
+    <div class="inputs">
+      <div class="type">midi</div>
+      <div class="port">port:<span>2</span></div>
+      <div class="channel">ch:<span>9</span></div>
+    </div>
+  </header>
   <div
     class="modules"
     use:dndzone={{ items: chain.modules }}
@@ -62,8 +65,15 @@
       <Module {module} {removeModule} />
     {/each}
   </div>
+  <footer>
+    <div class="outputs">
+      <div class="type">midi</div>
+      <div class="port">port:<span>2</span></div>
+      <div class="channel">ch:<span>9</span></div>
+    </div>
+  </footer>
   <button on:click={() => addModule("pth")}>add pth</button>
-  <button on:click={() => addModule("bch0:0")}>add bch</button>
+  <!-- <button on:click={() => addModule("bch0:0")}>add bch</button> -->
 </div>
 
 <style>
@@ -72,9 +82,30 @@
     padding: 4px;
     display: flex;
     flex-direction: column;
+    gap: 4px;
+    border-top: none;
+    border-bottom: none;
+  }
+  header,
+  footer {
+    display: flex;
+    gap: 1em;
+    justify-content: end;
+  }
+  header {
+    border-bottom: 1px black solid;
+  }
+  footer {
+    border-top: 1px black solid;
+  }
+  .inputs,
+  .outputs {
+    display: flex;
+    gap: 0.5em;
   }
   .modules {
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
     gap: 4px;
     padding: 2px;

@@ -32,12 +32,14 @@
 </script>
 
 <div class="console">
-  <ul bind:this={logElm} class="log">
-    {#each log as msg}
-      <p>{msg}</p>
-    {/each}
-  </ul>
-  <input type="text" name="intercom-message" value="" on:change={sendMsg} />
+  <div class="inner" >
+    <ul bind:this={logElm} class="log">
+      {#each log as msg}
+        <p>{msg}</p>
+      {/each}
+    </ul>
+    <input type="text" name="intercom-message" value="" on:change={sendMsg} />
+  </div>
 </div>
 
 <style>
@@ -47,13 +49,16 @@
     overflow: hidden;
     padding: var(--app-padding);
 
-    display: flex;
-    overflow: hidden;
-    flex-direction: column;
-
     border-style: solid;
     border-color: currentColor;
     border-width: 1px;
+  }
+  .inner {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
   }
   .log {
     width: 100%;
