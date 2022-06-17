@@ -1,7 +1,15 @@
 <script lang="ts">
   import { intercom_message } from "$lib/stores/message";
-
+  import { getContext } from "svelte";
+  const ws: WebSocket = getContext("socket");
   let logElm: HTMLElement;
+
+  ws.addEventListener("message", message => {
+    log = [...log, message.data];
+    setTimeout(() => {
+      logElm?.scrollTo({ top: logElm.scrollHeight });
+    }, 1);
+  });
 
   let log = [];
   intercom_message.subscribe(msg => {
@@ -15,6 +23,7 @@
 
   function sendMsg(e: Event) {
     log = [...log, e.target.value];
+    ws.send(e.target.value);
     e.target.value = "";
     setTimeout(() => {
       logElm?.scrollTo({ top: logElm.scrollHeight });
@@ -25,7 +34,7 @@
 <div class="console">
   <ul bind:this={logElm} class="log">
     {#each log as msg}
-      <li>{msg}</li>
+      <p>{msg}</p>
     {/each}
   </ul>
   <input type="text" name="intercom-message" value="" on:change={sendMsg} />
@@ -34,23 +43,30 @@
 <style>
   .console {
     height: 100%;
+    width: 100%;
     overflow: hidden;
     padding: var(--app-padding);
 
     display: flex;
+    overflow: hidden;
     flex-direction: column;
 
     border-style: solid;
     border-color: currentColor;
-    border-width: 2px;
+    border-width: 1px;
   }
   .log {
+    width: 100%;
     flex-grow: 1;
     overflow-y: scroll;
+    /* overflow-x: hidden; */
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    padding: 8px;
   }
-  .log li {
+  .log p {
+    width: 100%;
+    overflow-wrap: break-word;
   }
 </style>

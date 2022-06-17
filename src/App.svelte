@@ -1,6 +1,12 @@
 <script lang="ts">
   import Console from "$components/Console.svelte";
   import Network from "$components/Network.svelte";
+  import { setContext } from "svelte";
+
+  const INTERCOM_IP = "intercom.local";
+  const ws = new WebSocket(`ws://${INTERCOM_IP}/ws`);
+
+  setContext("socket", ws);
 </script>
 
 <main>
