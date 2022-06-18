@@ -24,7 +24,7 @@
     display: grid;
     gap: var(--app-gap-2);
   }
-  @media (min-width: 768px) {
+  @media (min-width: 512px) {
     main {
       grid-template-columns: minmax(256px, 1fr) 35ch;
     }

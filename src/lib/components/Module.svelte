@@ -8,7 +8,7 @@
 
 <div class="module">
   id:{module.id}
-  <br>
+  <br />
   {module.type}
   <button on:click={() => removeModule(module.id)} class="remove-module"
     >remove</button
@@ -16,7 +16,7 @@
 </div>
 
 <style>
-  .module{
+  .module {
     border: 1px black dashed;
     padding: 4px;
   }

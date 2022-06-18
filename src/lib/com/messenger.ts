@@ -2,6 +2,8 @@
 // const INTERCOM_IP = "intercom.local"
 // const ws = new WebSocket(`ws://${INTERCOM_IP}/ws`)
 
+import { writable, Writable } from "svelte/store"
+
 // let m = ""
 // let next = false
 // ws.onopen = () => {
@@ -24,7 +26,11 @@
 //     ws.send(msg)
 // }
 
+type MsgType = "createChain" | "removeChain" | "editChain" | null
 
-// export function send(ws: WebSocket) {
-//     ws.send("")
-// }
+export const currentMsgType: Writable<MsgType> = writable(null)
+
+export function send(ws: WebSocket, msg: string, msgType: MsgType) {
+    currentMsgType.set(msgType)
+    ws.send(msg)
+}

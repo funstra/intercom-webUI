@@ -11,6 +11,12 @@ interface COMmodule {
 }
 interface COMchain {
     id: number
+    inputs: {
+        type: "midi" | "osc" | "adc" | null
+        port?: number | "usb_midi_host" | "usb_midi_device" | "serial_midi_1" | "serial_midi_2" | "serial_midi_3" | null
+        ch?: number | null
+        addr?: string | null
+    }
     isConnected: boolean
     modules?: COMmodule[]
 }
