@@ -221,7 +221,7 @@
           port: null,
           addr: null,
         },
-        isConnected: true,
+        isConnected: false,
         modules: [],
       },
     ];

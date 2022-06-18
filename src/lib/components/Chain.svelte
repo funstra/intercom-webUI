@@ -2,9 +2,8 @@
   import { getContext, SvelteComponent } from "svelte";
   import Module from "./Module.svelte";
   import { dndzone } from "svelte-dnd-action";
-  import { uui } from "$util/util";
   import { send } from "$lib/com/messenger";
-  import { children } from "svelte/internal";
+import pid from "$lib/com/pid";
 
   export let chain: COMchain;
   export let removeChain;
@@ -48,8 +47,7 @@
   function finlazieModules(e) {
     chain.modules = e.detail.items;
     const _modules = chain.modules.map(module => module.type).join(",");
-    const cmd = `c -e ${chain.id}:cv8:0,gt8:0>${_modules}`;
-    console.log(cmd);
+    const cmd = `c -e ${chain.id}:cv${chain.inputs.port}:${chain.inputs.ch},gt5:0>${_modules}`;
     send(ws, cmd, "editChain");
   }
 
@@ -92,30 +90,6 @@
         }
     }
   }
-  // function changeInputs() {
-  //   let _descriptor = `c -e${chain.id}`;
-  //   let cv_in_descriptor = "";
-  //   let gt_in_descriptor = "";
-  //   let cv_port;
-  //   switch (chain.inputs.type) {
-  //     case "midi":
-  //       if (typeof chain.inputs.port == "string") {
-  //         cv_port = chain.inputs.port == "host" ? 4 : 5;
-  //       } else {
-  //         cv_port = chain.inputs.port;
-  //       }
-  //       cv_port += 4;
-  //       break;
-  //     case "osc":
-  //       break;
-  //     case "adc":
-  //       break;
-  //   }
-  //   console.log(cv_port);
-
-  //   // cv_port = `cv${}`
-  //   // send(ws, _descriptor, "editChain");
-  // }
 </script>
 
 <div class="chain">

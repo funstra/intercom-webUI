@@ -1,8 +1,6 @@
 /// <reference types="svelte" />
 /// <reference types="vite/client" />
 
-
-
 declare type DndEvent = import("svelte-dnd-action").DndEvent;
 declare namespace svelte.JSX {
     interface HTMLAttributes<T> {
