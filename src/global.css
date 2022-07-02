@@ -34,6 +34,27 @@ button {
 }
 input[type="text"] {
   cursor: text !important;
+  cursor: text;
+}
+input{
+  width: 100%;
+}
+select,input,option{
+  cursor: pointer;
+}
+select,input {
+  /* cursor: pointer; */
+  border-style: solid;
+  cursor: pointer;
+  background-color: transparent;
+  /* border: none; */
+  padding: 2px;
+  border-radius: 2px;
+  border-width: 1px;
+  font-family: inherit;
+  /* width: 100%; */
+  outline: none;
+  appearance: none;
 }
 ul,
 ol {

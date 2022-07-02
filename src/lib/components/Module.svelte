@@ -1,8 +1,5 @@
 <script lang="ts">
-  import { getContext } from "svelte";
-
   export let module: COMmodule;
-  const ws: WebSocket = getContext("socket");
   export let removeModule;
 </script>
 
@@ -10,9 +7,9 @@
   id:{module.id}
   <br />
   {module.type}
-  <button on:click={() => removeModule(module.id)} class="remove-module"
-    >remove</button
-  >
+  <button on:click={() => removeModule(module.id)} class="remove-module">
+    remove
+  </button>
 </div>
 
 <style>

@@ -12,19 +12,31 @@ interface COMmodule {
 interface COMchain {
     id: number
     inputs: {
-        type: PeriphialTypes | null
-        port: DacPorts | MidiPorts | null
-        ch: MidiCh | null
-        addr: string | null
+        cv_in_pid: PID | false,
+        cv_in_ch: number | false,
+        gt_in_pid: PID | false,
+        gt_in_ch: number | false
     }
     isConnected: boolean
+    modules_descriptor?: string
     modules?: COMmodule[]
 }
 interface COMnetwork {
     chains: COMchain[]
 }
 
-type PeriphialTypes = "midi" | "osc" | "adc"
+type PeriphialTypes = "midi" | "osc" | "analog" | "digital" | "i2c"
 type MidiPorts = "usb_midi_host" | "usb_midi_device" | "serial_midi_1" | "serial_midi_2" | "serial_midi_3"
 type DacPorts = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
-type MidiCh = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 
+type MidiCh = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15
+
+
+type DescriptorType = "config" | "edit"
+
+type MsgType = "createChain" | "removeChain" | "editChain" | "config" | null;
+interface Messenger {
+    ws: WebSocket,
+    send: (msg: String, msgType: MsgType) => void
+}
+
+

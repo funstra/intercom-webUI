@@ -1,12 +1,26 @@
 <script lang="ts">
   import Console from "$components/Console.svelte";
   import Network from "$components/Network.svelte";
+  import { writable, Writable } from "svelte/store";
   import { setContext } from "svelte";
 
+  // messenger - - - -
   const INTERCOM_IP = "intercom.local";
   const ws = new WebSocket(`ws://${INTERCOM_IP}/ws`);
 
-  setContext("socket", ws);
+  const currentMsgType: Writable<MsgType> = writable(null);
+
+  function send(ws: WebSocket, msg: string, msgType: MsgType) {
+    currentMsgType.set(msgType);
+    ws.send(msg);
+  }
+
+  setContext("messenger", {
+    ws,
+    send: (msg: string, msgType: MsgType) => send(ws, msg, msgType),
+  });
+
+  // messenger - - - -
 </script>
 
 <main>

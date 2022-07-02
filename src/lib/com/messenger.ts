@@ -1,5 +1,5 @@
 import { writable, Writable } from "svelte/store"
-type MsgType = "createChain" | "removeChain" | "editChain" | null
+type MsgType = "createChain" | "removeChain" | "editChain" | "config" | null
 
 export const currentMsgType: Writable<MsgType> = writable(null)
 

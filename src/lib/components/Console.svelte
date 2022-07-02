@@ -1,10 +1,10 @@
 <script lang="ts">
   import { intercom_message } from "$lib/stores/message";
   import { getContext } from "svelte";
-  const ws: WebSocket = getContext("socket");
+  const ws: Messenger = getContext("messenger");
   let logElm: HTMLElement;
 
-  ws.addEventListener("message", message => {
+  ws.ws.addEventListener("message", message => {
     log = [...log, message.data];
     setTimeout(() => {
       logElm?.scrollTo({ top: logElm.scrollHeight });
@@ -23,7 +23,8 @@
 
   function sendMsg(e: Event) {
     log = [...log, e.target.value];
-    ws.send(e.target.value);
+    // ws.send(e.target.value);
+    ws.send(e.target.value, "editChain");
     e.target.value = "";
     setTimeout(() => {
       logElm?.scrollTo({ top: logElm.scrollHeight });
@@ -32,7 +33,7 @@
 </script>
 
 <div class="console">
-  <div class="inner" >
+  <div class="inner">
     <ul bind:this={logElm} class="log">
       {#each log as msg}
         <p>{msg}</p>
