@@ -5,7 +5,7 @@
   import { setContext } from "svelte";
 
   // messenger - - - -
-  const INTERCOM_IP = "intercom.local";
+  const INTERCOM_IP = "localhost:9090";
   const ws = new WebSocket(`ws://${INTERCOM_IP}/ws`);
 
   const currentMsgType: Writable<MsgType> = writable(null);

@@ -59,7 +59,7 @@ export function parseChain(chain_descriptor: string): COMchain {
 
     let modules = []
     if (modules_descriptor !== '_') {
-        modules = modules_descriptor.split(',').map(parseModule)
+        modules = modules_descriptor.split(',').filter(module => module !== 'inp').map(parseModule)
     }
 
     return {
@@ -95,4 +95,10 @@ export function descriptor(s: String) {
     } else {
         return false
     }
+}
+
+export function chainToString(chain: COMchain): String {
+    let string_inp = `cv${chain.inputs.cv_in_pid}:${chain.inputs.cv_in_ch},gt${chain.inputs.gt_in_pid}:${chain.inputs.gt_in_ch}`
+    let string_modules = `>${chain.modules.length ? chain.modules : '_'}`
+    return `${string_inp}${string_modules}`
 }

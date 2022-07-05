@@ -5,35 +5,56 @@
   import { getContext } from "svelte";
   import { pidToType } from "$lib/interface-mappings/inputs";
   import Dropdown from "./ui/Dropdown.svelte";
+  import { chainToString } from "$lib/com/parser";
 
   const messenger: Messenger = getContext("messenger");
 
   export let chain: COMchain;
   export let removeChain;
-  function addModule(type) {}
-  function removeModule(id) {}
+  function addModule(type) {
+    chain.modules = [
+      ...chain.modules,
+      {
+        id: chain.modules.length,
+        type,
+        name: type,
+      },
+    ];
+  }
+  function removeModule(id) {
+    chain.modules = chain.modules.filter(module => module.id !== id);
+  }
 
-  function considerModules(e) {}
-  function finlazieModules(e) {}
+  function considerModules(e) {
+    chain.modules = e.detail.items;
+  }
+  function finlazieModules(e) {
+    chain.modules = e.detail.items.map((item, i) => ({ ...item, id: i }));
+    console.log(chainToString(chain));
+    // messenger.send(
+    //   ``,
+    //   'editChain'
+    // )
+  }
 
   let input_cv_n_ch = null;
   let input_gt_n_ch = null;
 
   function sendInputs() {
-    // let _cv = `${
-    //   chain.inputs.cv_in_pid
-    //     ? `${chain.inputs.cv_in_pid}:${chain.inputs.cv_in_ch}`
-    //     : "_"
-    // }`;
-    // let _gt = `${
-    //   chain.inputs.gt_in_pid
-    //     ? `${chain.inputs.gt_in_pid}:${chain.inputs.gt_in_ch}`
-    //     : "_"
-    // }`;
-    // messenger.send(
-    //   `c -e${chain.id}:cv${_cv},gt${_gt}>${chain.modules_descriptor}`,
-    //   "config"
-    // );
+    let _cv = `${
+      chain.inputs.cv_in_pid
+        ? `${chain.inputs.cv_in_pid}:${chain.inputs.cv_in_ch}`
+        : "_"
+    }`;
+    let _gt = `${
+      chain.inputs.gt_in_pid
+        ? `${chain.inputs.gt_in_pid}:${chain.inputs.gt_in_ch}`
+        : "_"
+    }`;
+    messenger.send(
+      `c -e${chain.id}:cv${_cv},gt${_gt}>${chain.modules_descriptor}`,
+      "config"
+    );
   }
 
   $: {
@@ -154,12 +175,13 @@
 
   <footer>
     <div class="outputs">
-      <div class="type">midi</div>
+      <!-- <div class="type">midi</div>
       <div class="port">port:<span>2</span></div>
-      <div class="channel">ch:<span>9</span></div>
+      <div class="channel">ch:<span>9</span></div> -->
     </div>
   </footer>
   <button on:click={() => addModule("pth")}>add pth</button>
+  <button on:click={() => addModule("out")}>add out</button>
 </div>
 
 <style>

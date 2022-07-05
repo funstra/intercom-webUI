@@ -9,14 +9,24 @@ interface COMmodule {
     type: string
     parameters?: COMparameter[]
 }
+interface COMInput {
+    cv_in_pid: PID | false,
+    cv_in_ch: number | false,
+    gt_in_pid: PID | false,
+    gt_in_ch: number | false
+}
+interface COMOutput {
+    chain_id: number
+    module_ud: number
+    cv_out_pid: PID | false,
+    cv_out_ch: number | false,
+    gt_out_pid: PID | false,
+    gt_out_ch: number | false
+}
 interface COMchain {
     id: number
-    inputs: {
-        cv_in_pid: PID | false,
-        cv_in_ch: number | false,
-        gt_in_pid: PID | false,
-        gt_in_ch: number | false
-    }
+    inputs: COMInput
+    outputs: COMOutput[]
     isConnected: boolean
     modules_descriptor?: string
     modules?: COMmodule[]
